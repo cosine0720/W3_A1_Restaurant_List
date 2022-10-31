@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const Restaurant = require('../restaurant') // 載入 restaurant model
 const db = require('../../config/mongoose')
 const restaurantList = require('../../restaurant.json').results
