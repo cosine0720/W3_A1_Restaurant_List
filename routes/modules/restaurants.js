@@ -9,15 +9,18 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  Restaurant.create(req.body)
+  const userId = req.user._id
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+  Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description, userId })
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 
 // 瀏覽餐廳詳細資料
 router.get('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  Restaurant.findById(restaurantId)
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurantData => res.render('show', { restaurantData }))
     .catch(err => console.log(err))
@@ -25,24 +28,27 @@ router.get('/:restaurantId', (req, res) => {
 
 // 編輯餐廳頁面
 router.get('/:restaurantId/edit', (req, res) => {
-  const { restaurantId } = req.params
-  Restaurant.findById(restaurantId)
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurantData => res.render('edit', { restaurantData }))
     .catch(err => console.log(err))
 })
 
 router.put('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  Restaurant.findByIdAndUpdate(restaurantId, req.body)
-    .then(() => res.redirect(`/restaurants/${restaurantId}`))
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findByIdAndUpdate(_id, req.body) // findByIdAndUpdate 與 findOneAndUpdate 差別？
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(err => console.log(err))
 })
 
 // 刪除特定餐廳
 router.delete('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findByIdAndDelete(restaurantId)
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  return Restaurant.findOneAndDelete({ _id, userId }) 
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
