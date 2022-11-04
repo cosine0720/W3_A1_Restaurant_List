@@ -11,7 +11,7 @@ const restaurantSchema = new Schema({
   google_map: { type: String, required: true },
   rating: { type: Number, required: true },
   description: { type: String, required: true },
-  userId: {  // 加入關聯設定
+  userId: { // 加入關聯設定
     type: Schema.Types.ObjectId,
     ref: 'User', // 定義參考對象是 User model
     index: true,

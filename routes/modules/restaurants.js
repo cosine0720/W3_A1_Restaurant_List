@@ -39,7 +39,7 @@ router.get('/:restaurantId/edit', (req, res) => {
 router.put('/:restaurantId', (req, res) => {
   const userId = req.user._id
   const _id = req.params.restaurantId
-  Restaurant.findByIdAndUpdate(_id, req.body) 
+  Restaurant.findOneAndUpdate({ _id, userId }, req.body)
     .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(err => console.log(err))
 })
@@ -48,7 +48,7 @@ router.put('/:restaurantId', (req, res) => {
 router.delete('/:restaurantId', (req, res) => {
   const userId = req.user._id
   const _id = req.params.restaurantId
-  return Restaurant.findOneAndDelete({ _id, userId }) 
+  return Restaurant.findOneAndDelete({ _id, userId })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })

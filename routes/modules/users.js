@@ -20,7 +20,7 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
-  const { email, password, confirmPassword } = req.body
+  const { name, email, password, confirmPassword } = req.body
   const errors = []
   if (!email || !password || !confirmPassword) {
     errors.push({ message: 'Email 及 password 都是必填。' })
@@ -42,12 +42,11 @@ router.post('/register', (req, res) => {
       errors.push({ message: '這個 Email 已經註冊過了。' })
       res.render('register', {
         errors,
-        name,
         email,
         password,
         confirmPassword
       })
-    } 
+    }
 
     return bcrypt
       .genSalt(10) // 產生「鹽」，並設定複雜度係數為 10

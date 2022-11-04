@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 // 載入  model
-const Restaurant = require('../restaurant') 
+const Restaurant = require('../restaurant')
 const User = require('../user')
 
 const db = require('../../config/mongoose')
@@ -29,27 +29,27 @@ const SEED_USER = [
 db.once('open', () => {
   Promise.all(
     SEED_USER.map((user) => {
-      const {name, email, password, restaurantIndex} = user
+      const { name, email, password, restaurantIndex } = user
       console.log('running restaurantSeeder script...')
       return bcrypt
         .genSalt(10)
         .then(salt => bcrypt.hash(password, salt))
         .then(hash => {
           return User.create({
-            name: name,
-            email: email,
+            name,
+            email,
             password: hash
           })
         })
         .then((user) => {
-          console.log('現在建立的user是：',user)
+          console.log('現在建立的user是：', user)
           const restaurants = restaurantIndex.map((index) => {
             const restaurant = restaurantList[index]
             restaurant.userId = user._id
             console.log(`restaurantIndex.map 中，跑第 ${index} 個餐廳：`, restaurant)
             return restaurant
           })
-          console.log('create!!!---------------------------------------',restaurants)
+          console.log('create!!!---------------------------------------', restaurants)
           return Restaurant.create(restaurants) // 一次輸出三間餐廳，並且包在一個陣列裡
         })
     })
@@ -60,5 +60,4 @@ db.once('open', () => {
     })
 
     .catch((error) => console.log(error))
-  
 })
