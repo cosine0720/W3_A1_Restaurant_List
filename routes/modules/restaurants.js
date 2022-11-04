@@ -39,7 +39,7 @@ router.get('/:restaurantId/edit', (req, res) => {
 router.put('/:restaurantId', (req, res) => {
   const userId = req.user._id
   const _id = req.params.restaurantId
-  Restaurant.findByIdAndUpdate(_id, req.body) // findByIdAndUpdate 與 findOneAndUpdate 差別？
+  Restaurant.findByIdAndUpdate(_id, req.body) 
     .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(err => console.log(err))
 })
