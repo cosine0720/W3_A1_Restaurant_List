@@ -13,7 +13,7 @@ const restaurantList = require('../../restaurant.json').results
 // 建立種子 User
 const SEED_USER = [
   {
-    name: 'user1',
+    name: '郝美',
     email: 'user1@example.com',
     password: '12345678',
     restaurantIndex: [0, 1, 2]
